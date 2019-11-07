@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title id="title">Document</title>
-    <script src="main.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <title id="title">Game</title>
+    <script src="/static/main.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
@@ -17,8 +17,17 @@
     </div>
     <hr>
     <button onclick="startGame()" id="btnStartgame">Start Game</button>
-    <!-- <button onclick="updateTitle()">Update Title</button> -->
     <h2 id="gameover" class="gameover"> </h2>
+    <div id="sendInfo">
+        <input id="name">
+        <button id="buttonSend" onclick="sendScore()">Send score</button>
+    </div>
+    <script>
+        var data;
+        data = document.getElementById('sendInfo');
+        data.style.visibility = 'hidden';
+    </script>
+
 </body>
 
 </html>

@@ -8,11 +8,15 @@ var snake = [];
 var v = 10;
 var food;
 var enemies = [];
+var btnStartGame;
+var data = document.getElementById('sendInfo');
+
+
 function updateTitle() {
     title.innerHTML = 'Score:' + score;
 }
-
 function startGame() {
+    btnStartGame = document.getElementById('btnStartgame');
     enemies = [];
     gameover = document.getElementById('gameover');
     gameover.innerHTML = "";
@@ -75,29 +79,32 @@ function move(d, h) {
     enemies.push(addEnemy());
     snake[0][h] -= 10 * d;
 }
-function updateEnemies(){
+function updateEnemies() {
     for (let index = 0; index < enemies.length; index++) {
-        if(snake[0]['x'] < enemies[index]['x']){
-            enemies[index]['x']-=5;
-        }else{
-            enemies[index]['x']+=5;
+        if (snake[0]['x'] < enemies[index]['x']) {
+            enemies[index]['x'] -= 5;
+        } else {
+            enemies[index]['x'] += 5;
         }
-        if(snake[0]['y'] < enemies[index]['y']){
-            enemies[index]['y']-=5;
-        }else{
-            enemies[index]['y']+=5;
+        if (snake[0]['y'] < enemies[index]['y']) {
+            enemies[index]['y'] -= 5;
+        } else {
+            enemies[index]['y'] += 5;
         }
-        if(enemies[index]['x']==snake[0]['x'] && enemies[index]['y']==snake[0]['y']){
+        if (enemies[index]['x'] == snake[0]['x'] && enemies[index]['y'] == snake[0]['y']) {
             IsAlive = false;
-            gameover.innerHTML="FINAL SCORE:"+score;
+            gameover.innerHTML = "FINAL SCORE:" + score;
             score.innerHTML = "";
+            btnStartGame.style.display = 'none';
+            data.style.visibility = 'visible';
+            data.style.display = 'block';
         }
     }
 }
-function addEnemy(){
-    
-    newEnemy = {'x':getRandomInt(0,32)*10,'y':getRandomInt(0,32)*10};
-    if (newEnemy['x'] == food['x'] && newEnemy['y'] == food['y']){
+function addEnemy() {
+
+    newEnemy = { 'x': getRandomInt(0, 32) * 10, 'y': getRandomInt(0, 32) * 10 };
+    if (newEnemy['x'] == food['x'] && newEnemy['y'] == food['y']) {
         newEnemy = addEnemy();
     }
     return newEnemy;
@@ -118,11 +125,11 @@ function updateScore() {
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
-function drawEnemies(){
+function drawEnemies() {
     var ctx = canvas.getContext("2d");
     ctx.fillStyle = 'blue';
-    for(i = 0;i<enemies.length;i++){
-        ctx.fillRect(enemies[i]['x'],enemies[i]['y'], 10, 10);
+    for (i = 0; i < enemies.length; i++) {
+        ctx.fillRect(enemies[i]['x'], enemies[i]['y'], 10, 10);
     }
 }
 function drawGame() {
@@ -137,4 +144,13 @@ function drawGame() {
 }
 
 
-
+function sendScore() {
+    var name = document.getElementById('name').value;
+    var URL = 'http://127.0.0.1:5000/addScore?';
+    URL = URL + 'name=' + name + '&';
+    URL = URL + 'score=' + score;
+    var request = new XMLHttpRequest();
+    request.open('POST', URL, true)
+    request.send();
+    btnStartGame.style.display = 'block';
+}
