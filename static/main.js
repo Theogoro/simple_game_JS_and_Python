@@ -146,11 +146,15 @@ function drawGame() {
 
 function sendScore() {
     var name = document.getElementById('name').value;
-    var URL = 'http://127.0.0.1:5000/addScore?';
+    var URL = 'http://192.168.0.132:5000/addScore?';
     URL = URL + 'name=' + name + '&';
     URL = URL + 'score=' + score;
     var request = new XMLHttpRequest();
-    request.open('POST', URL, true)
-    request.send();
+    var promise = new Promise(function (resolve,reject) {
+        request.open('POST', URL, true)
+        request.send();
+    });
     btnStartGame.style.display = 'block';
+    var location = window.location['href'];
+    window.location = location;
 }
